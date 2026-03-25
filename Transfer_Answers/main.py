@@ -32,6 +32,9 @@ def GenerarChecklists(df_proyectos):
     for r_idx, r_val in df_proyectos.iterrows():
         docx_tpl = DocxTemplate(WORD_TPL_PATH)
         context = r_val.to_dict()
+        #nuevo
+        context["rut"]=str(r_val.get("rut","")).strip()
+        context["nombre"]=str(r_val.get("nombre",'')).strip()
 
         requiere_evaluacion = False
 
@@ -52,11 +55,11 @@ def GenerarChecklists(df_proyectos):
                 context[col_no] = 'X'
             else:
                 context[col_no] = ''
-
+        #nuevo
         if requiere_evaluacion:
-            context['solicitud_evaluacion'] = 'SOLICITO'
+            context['solicito'] = 'solicito'
         else:
-            context['solicitud_evaluacion'] = 'NO SOLICITO'
+            context['solicito'] = 'no solicito'
 
         docx_tpl.render(context)
 
